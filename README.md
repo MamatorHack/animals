@@ -37,6 +37,7 @@ npm test
 - `project/style.css` – styles.
 - `project/public/data/animals.json` – données utilisées pour générer la liste d'animaux.
 - `tests/` – tests unitaires.
+- La liste peut être filtrée par catégorie (terrestre, marin, aérien) grâce au menu déroulant de la page principale.
 
 ## Outils de débogage
 

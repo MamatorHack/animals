@@ -5,7 +5,8 @@
         "emoji": "🦁",
         "image": "https://images.pexels.com/photos/247502/pexels-photo-247502.jpeg?auto=compress&cs=tinysrgb&w=800",
         "description": "Le lion est surnommé le \"roi des animaux\" pour sa prestance et sa crinière majestueuse. Il vit en groupe appelé fierté et peut courir jusqu'à 80 km/h sur de courtes distances.",
-        "habitat": "Savanes africaines, prairies et zones semi-désertiques"
+        "habitat": "Savanes africaines, prairies et zones semi-désertiques",
+        "category": "terrestre"
     },
     {
         "id": "elephant",
@@ -13,7 +14,8 @@
         "emoji": "🐘",
         "image": "https://images.pexels.com/photos/66898/elephant-cub-tsavo-kenya-66898.jpeg?auto=compress&cs=tinysrgb&w=800",
         "description": "L'éléphant est le plus grand mammifère terrestre. Il possède une mémoire exceptionnelle et utilise sa trompe comme une \"main\" pour saisir des objets, se laver et communiquer.",
-        "habitat": "Forêts tropicales, savanes et déserts d'Afrique et d'Asie"
+        "habitat": "Forêts tropicales, savanes et déserts d'Afrique et d'Asie",
+        "category": "terrestre"
     },
     {
         "id": "pingouin",
@@ -21,7 +23,8 @@
         "emoji": "🐧",
         "image": "https://images.pexels.com/photos/792381/pexels-photo-792381.jpeg?auto=compress&cs=tinysrgb&w=800",
         "description": "Le pingouin est un excellent nageur qui peut plonger jusqu'à 500 mètres de profondeur. Ses \"ailes\" sont adaptées pour nager plutôt que voler, et il peut atteindre 35 km/h sous l'eau.",
-        "habitat": "Régions polaires antarctiques, côtes rocheuses et banquises"
+        "habitat": "Régions polaires antarctiques, côtes rocheuses et banquises",
+        "category": "marin"
     },
     {
         "id": "tigre",
@@ -29,7 +32,8 @@
         "emoji": "🐅",
         "image": "https://images.pexels.com/photos/145939/pexels-photo-145939.jpeg?auto=compress&cs=tinysrgb&w=800",
         "description": "Le tigre est le plus grand félin sauvage au monde. Ses rayures sont uniques à chaque individu, comme nos empreintes digitales. C'est un chasseur solitaire et nocturne très agile.",
-        "habitat": "Forêts tropicales, mangroves et prairies d'Asie"
+        "habitat": "Forêts tropicales, mangroves et prairies d'Asie",
+        "category": "terrestre"
     },
     {
         "id": "girafe",
@@ -37,7 +41,8 @@
         "emoji": "🦒",
         "image": "https://images.pexels.com/photos/802112/pexels-photo-802112.jpeg?auto=compress&cs=tinysrgb&w=800",
         "description": "La girafe est l'animal le plus grand du monde, pouvant mesurer jusqu'à 6 mètres. Son long cou lui permet d'atteindre les feuilles d'acacia en hauteur que les autres animaux ne peuvent pas atteindre.",
-        "habitat": "Savanes africaines, zones boisées clairsemées"
+        "habitat": "Savanes africaines, zones boisées clairsemées",
+        "category": "terrestre"
     },
     {
         "id": "dauphin",
@@ -45,6 +50,34 @@
         "emoji": "🐬",
         "image": "https://images.pexels.com/photos/64219/dolphin-marine-mammals-water-sea-64219.jpeg?auto=compress&cs=tinysrgb&w=800",
         "description": "Le dauphin est réputé pour son intelligence exceptionnelle. Il utilise un système de sonar naturel pour naviguer et chasser, et peut reconnaître son reflet dans un miroir.",
-        "habitat": "Océans, mers tempérées et tropicales du monde entier"
+        "habitat": "Océans, mers tempérées et tropicales du monde entier",
+        "category": "marin"
+    },
+    {
+        "id": "requin",
+        "name": "Requin",
+        "emoji": "🦈",
+        "image": "https://images.pexels.com/photos/3658261/pexels-photo-3658261.jpeg?auto=compress&cs=tinysrgb&w=800",
+        "description": "Prédateur marin redoutable, le requin possède plusieurs rangées de dents acérées et peut détecter les vibrations à grande distance.",
+        "habitat": "Océans du monde entier",
+        "category": "marin"
+    },
+    {
+        "id": "panda",
+        "name": "Panda",
+        "emoji": "🐼",
+        "image": "https://images.pexels.com/photos/1464805/pexels-photo-1464805.jpeg?auto=compress&cs=tinysrgb&w=800",
+        "description": "Le panda géant est reconnu pour son pelage noir et blanc et son alimentation quasi exclusive de bambou.",
+        "habitat": "Forêts de bambous des montagnes chinoises",
+        "category": "terrestre"
+    },
+    {
+        "id": "aigle",
+        "name": "Aigle",
+        "emoji": "🦅",
+        "image": "https://images.pexels.com/photos/72566/eagle-owl-raptor-bird-eagle-owl-72566.jpeg?auto=compress&cs=tinysrgb&w=800",
+        "description": "L'aigle est un oiseau de proie majestueux doté d'une vue perçante lui permettant de repérer ses proies à grande distance.",
+        "habitat": "Régions montagneuses et falaises escarpées",
+        "category": "aerien"
     }
 ]

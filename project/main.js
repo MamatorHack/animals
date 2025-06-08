@@ -37,6 +37,9 @@ async function initApp() {
     // Charge les données depuis le fichier JSON
     animalsData = await loadAnimals();
 
+    // Met en place le système de filtrage
+    setupFilter();
+
     // Génère la liste des boutons d'animaux
     generateAnimalButtons();
 
@@ -47,21 +50,47 @@ async function initApp() {
 }
 
 /**
+ * Prépare la liste déroulante de filtrage et gère les changements
+ */
+function setupFilter() {
+    const select = document.getElementById('filterSelect');
+    if (!select) return;
+
+    const categories = Array.from(new Set(animalsData.map(a => a.category)));
+    categories.forEach(cat => {
+        const option = document.createElement('option');
+        option.value = cat;
+        option.textContent = cat.charAt(0).toUpperCase() + cat.slice(1);
+        select.appendChild(option);
+    });
+
+    select.addEventListener('change', () => {
+        generateAnimalButtons(select.value);
+        showWelcomeMessage();
+    });
+}
+
+/**
  * Génère dynamiquement les boutons pour chaque animal
  */
-function generateAnimalButtons() {
+function generateAnimalButtons(filter = 'all') {
     const animalsGrid = document.getElementById('animalsGrid');
-    
+
     // Vide le conteneur au cas où
     animalsGrid.innerHTML = '';
-    
+
+    // Sélectionne les animaux selon le filtre
+    const animalsToShow = filter === 'all'
+        ? animalsData
+        : animalsData.filter(animal => animal.category === filter);
+
     // Crée un bouton pour chaque animal
-    animalsData.forEach(animal => {
+    animalsToShow.forEach(animal => {
         const button = createAnimalButton(animal);
         animalsGrid.appendChild(button);
     });
-    
-    console.log(`📝 ${animalsData.length} boutons d'animaux générés`);
+
+    console.log(`📝 ${animalsToShow.length} boutons d'animaux générés`);
 }
 
 /**

@@ -19,6 +19,14 @@
             <!-- Liste des animaux -->
             <section class="animals-list">
                 <h2>Choisis un animal</h2>
+                <div class="filter">
+                    <label for="filterSelect">Filtrer par type&nbsp;:</label>
+                    <select id="filterSelect">
+                        <option value="all">Tous</option>
+                        <option value="terrestre">Terrestres</option>
+                        <option value="sous-marin">Sous-marins</option>
+                    </select>
+                </div>
                 <div class="animals-grid" id="animalsGrid">
                     <!-- Les boutons d'animaux seront générés par JavaScript -->
                 </div>
@@ -35,6 +43,6 @@
         </main>
     </div>
 
-    <script src="main.js"></script>
+    <script type="module" src="main.js"></script>
 </body>
 </html>

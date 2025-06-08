@@ -3,73 +3,52 @@
  * Application éducative interactive pour découvrir les animaux
  */
 
-// Base de données des animaux avec toutes leurs informations
-const animalsData = [
-    {
-        id: 'lion',
-        name: 'Lion',
-        emoji: '🦁',
-        image: 'https://images.pexels.com/photos/247502/pexels-photo-247502.jpeg?auto=compress&cs=tinysrgb&w=800',
-        description: 'Le lion est surnommé le "roi des animaux" pour sa prestance et sa crinière majestueuse. Il vit en groupe appelé fierté et peut courir jusqu\'à 80 km/h sur de courtes distances.',
-        habitat: 'Savanes africaines, prairies et zones semi-désertiques'
-    },
-    {
-        id: 'elephant',
-        name: 'Éléphant',
-        emoji: '🐘',
-        image: 'https://images.pexels.com/photos/66898/elephant-cub-tsavo-kenya-66898.jpeg?auto=compress&cs=tinysrgb&w=800',
-        description: 'L\'éléphant est le plus grand mammifère terrestre. Il possède une mémoire exceptionnelle et utilise sa trompe comme une "main" pour saisir des objets, se laver et communiquer.',
-        habitat: 'Forêts tropicales, savanes et déserts d\'Afrique et d\'Asie'
-    },
-    {
-        id: 'pingouin',
-        name: 'Pingouin',
-        emoji: '🐧',
-        image: 'https://images.pexels.com/photos/792381/pexels-photo-792381.jpeg?auto=compress&cs=tinysrgb&w=800',
-        description: 'Le pingouin est un excellent nageur qui peut plonger jusqu\'à 500 mètres de profondeur. Ses "ailes" sont adaptées pour nager plutôt que voler, et il peut atteindre 35 km/h sous l\'eau.',
-        habitat: 'Régions polaires antarctiques, côtes rocheuses et banquises'
-    },
-    {
-        id: 'tigre',
-        name: 'Tigre',
-        emoji: '🐅',
-        image: 'https://images.pexels.com/photos/792381/pexels-photo-792381.jpeg?auto=compress&cs=tinysrgb&w=800',
-        description: 'Le tigre est le plus grand félin sauvage au monde. Ses rayures sont uniques à chaque individu, comme nos empreintes digitales. C\'est un chasseur solitaire et nocturne très agile.',
-        habitat: 'Forêts tropicales, mangroves et prairies d\'Asie'
-    },
-    {
-        id: 'girafe',
-        name: 'Girafe',
-        emoji: '🦒',
-        image: 'https://images.pexels.com/photos/802112/pexels-photo-802112.jpeg?auto=compress&cs=tinysrgb&w=800',
-        description: 'La girafe est l\'animal le plus grand du monde, pouvant mesurer jusqu\'à 6 mètres. Son long cou lui permet d\'atteindre les feuilles d\'acacia en hauteur que les autres animaux ne peuvent pas atteindre.',
-        habitat: 'Savanes africaines, zones boisées clairsemées'
-    },
-    {
-        id: 'dauphin',
-        name: 'Dauphin',
-        emoji: '🐬',
-        image: 'https://images.pexels.com/photos/64219/dolphin-marine-mammals-water-sea-64219.jpeg?auto=compress&cs=tinysrgb&w=800',
-        description: 'Le dauphin est réputé pour son intelligence exceptionnelle. Il utilise un système de sonar naturel pour naviguer et chasser, et peut reconnaître son reflet dans un miroir.',
-        habitat: 'Océans, mers tempérées et tropicales du monde entier'
-    }
-];
+import { findAnimalById } from './findAnimalById.js';
+
+// Base de données chargée dynamiquement
+let animalsData = [];
+
+// Type de filtre actif (all, terrestre, sous-marin)
+let currentFilter = 'all';
 
 // Variables globales pour gérer l'état de l'application
 let currentAnimalId = null;
 
 /**
+ * Charge la liste des animaux depuis le fichier JSON
+ * @returns {Promise<Array>} Tableau des animaux
+ */
+async function loadAnimals() {
+    try {
+        const response = await fetch('./data/animals.json');
+        if (!response.ok) {
+            throw new Error('Impossible de charger animals.json');
+        }
+        return await response.json();
+    } catch (err) {
+        console.error(err);
+        return [];
+    }
+}
+
+/**
  * Initialise l'application au chargement de la page
  */
-function initApp() {
+async function initApp() {
     console.log('🚀 Initialisation du site "Découvre les Animaux"');
-    
+
+    // Charge les données depuis le fichier JSON
+    animalsData = await loadAnimals();
+
+    const filterSelect = document.getElementById('filterSelect');
+    filterSelect.addEventListener('change', handleFilterChange);
+
     // Génère la liste des boutons d'animaux
     generateAnimalButtons();
-    
+
     // Affiche le message de bienvenue par défaut
     showWelcomeMessage();
-    
+
     console.log('✅ Application initialisée avec succès');
 }
 
@@ -78,17 +57,28 @@ function initApp() {
  */
 function generateAnimalButtons() {
     const animalsGrid = document.getElementById('animalsGrid');
-    
+
     // Vide le conteneur au cas où
     animalsGrid.innerHTML = '';
-    
-    // Crée un bouton pour chaque animal
-    animalsData.forEach(animal => {
+
+    const filtered = animalsData.filter(animal => {
+        return currentFilter === 'all' || animal.category === currentFilter;
+    });
+
+    // Crée un bouton pour chaque animal filtré
+    filtered.forEach(animal => {
         const button = createAnimalButton(animal);
         animalsGrid.appendChild(button);
     });
-    
-    console.log(`📝 ${animalsData.length} boutons d'animaux générés`);
+
+    console.log(`📝 ${filtered.length} boutons d'animaux générés`);
+}
+
+function handleFilterChange(event) {
+    currentFilter = event.target.value;
+    generateAnimalButtons();
+    showWelcomeMessage();
+    currentAnimalId = null;
 }
 
 /**
@@ -100,7 +90,9 @@ function createAnimalButton(animal) {
     const button = document.createElement('button');
     button.className = 'animal-button';
     button.setAttribute('data-animal-id', animal.id);
-    
+    button.setAttribute('aria-label', animal.name);
+    button.setAttribute('aria-pressed', 'false');
+
     // Structure HTML du bouton
     button.innerHTML = `
         <div class="animal-emoji">${animal.emoji}</div>
@@ -142,8 +134,10 @@ function updateActiveButton(activeAnimalId) {
         
         if (animalId === activeAnimalId) {
             button.classList.add('active');
+            button.setAttribute('aria-pressed', 'true');
         } else {
             button.classList.remove('active');
+            button.setAttribute('aria-pressed', 'false');
         }
     });
 }
@@ -153,7 +147,7 @@ function updateActiveButton(activeAnimalId) {
  * @param {string} animalId - L'identifiant de l'animal à afficher
  */
 function displayAnimalDetails(animalId) {
-    const animal = findAnimalById(animalId);
+    const animal = findAnimalById(animalsData, animalId);
     
     if (!animal) {
         console.error(`❌ Animal non trouvé: ${animalId}`);
@@ -197,14 +191,6 @@ function displayAnimalDetails(animalId) {
     console.log(`✅ Détails affichés pour: ${animal.name}`);
 }
 
-/**
- * Recherche un animal par son identifiant
- * @param {string} animalId - L'identifiant à rechercher
- * @returns {Object|undefined} - L'animal trouvé ou undefined
- */
-function findAnimalById(animalId) {
-    return animalsData.find(animal => animal.id === animalId);
-}
 
 /**
  * Affiche le message de bienvenue par défaut
@@ -236,5 +222,7 @@ function debugInfo() {
 // Lance l'application quand le DOM est chargé
 document.addEventListener('DOMContentLoaded', initApp);
 
-// Expose la fonction de debug globalement pour le développement
-window.debugAnimals = debugInfo;
+// Expose la fonction de debug uniquement en développement
+if (import.meta.env.DEV) {
+    window.debugAnimals = debugInfo;
+}
